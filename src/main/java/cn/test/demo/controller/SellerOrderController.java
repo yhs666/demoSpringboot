@@ -7,11 +7,15 @@ package cn.test.demo.controller;
  */
 
 import cn.test.demo.dto.OrderDTO;
+import cn.test.demo.enums.ResoultEnum;
+import cn.test.demo.exception.SellException;
 import cn.test.demo.servie.OrderService;
+import cn.test.demo.utils.ResoultVOUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.jaxb.SpringDataJaxb;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,5 +51,32 @@ public class SellerOrderController {
         return  new ModelAndView("order/list",map);
     }
 
+    /**
+     * 取消订单操作
+     * @param orderId
+     * @param map
+     * @return
+     */
+    @GetMapping("/cancel")
+    public ModelAndView cancle(@RequestParam("orderId") String orderId,
+                             Map<String,Object> map) {
+        OrderDTO orderDTO;
+        try{
+            orderDTO= orderService.findOne(orderId);
+            orderService.cancle(orderDTO);
+        }catch (SellException e){
+            log.error("[卖家端取消订单]， 订单查询不到");
+            map.put("msg", e.getMessage());
+            map.put("url","/sell/seller/order/list");
+            return  new ModelAndView("common/error",map);
+        }
+
+        map.put("msg", ResoultEnum.ORDER_CANCEL_SUCCESS);
+        map.put("url","/sell/seller/order/list");
+
+        return  new ModelAndView("common/success",map);
+
+
+    }
 
 }
