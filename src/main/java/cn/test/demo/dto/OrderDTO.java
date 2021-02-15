@@ -7,7 +7,9 @@ package cn.test.demo.dto; /*
 import cn.test.demo.dataobject.OrderDetail;
 import cn.test.demo.enums.OrderStatusEnum;
 import cn.test.demo.enums.PayStatusEnum;
+import cn.test.demo.utils.EnumUtil;
 import cn.test.demo.utils.serializer.Date2LongSerializer;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
@@ -51,4 +53,15 @@ public class OrderDTO {
     private Date updateTime;
     List<OrderDetail> orderDetailList;
     //List<OrderDetail> orderDetailList =new ArrayList<>(); // 初始值，在返回给前端显示 【】
+
+    @JsonIgnore
+    public  OrderStatusEnum getOrderStatusEnum(){
+        return EnumUtil.getBycode(orderStatus,OrderStatusEnum.class);
+    }
+
+    // 通过code 获取enum 的对象,  在Json 序列化的时候，忽略这两个方法
+    @JsonIgnore
+    public  PayStatusEnum getPayStatusEnum(){
+        return  EnumUtil.getBycode(payStatus,PayStatusEnum.class);
+    }
 }
