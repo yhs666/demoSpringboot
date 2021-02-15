@@ -8,6 +8,7 @@ import cn.test.demo.dto.OrderDTO;
 import cn.test.demo.repository.OrderDetailRepository;
 import cn.test.demo.repository.OrderMasterRepository;
 import cn.test.demo.servie.ProductService;
+import cn.test.demo.utils.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
@@ -99,5 +100,15 @@ public  class OrderServiceImplTest {
         OrderDTO orderDTO = orderService.findOne(ORDERID);
         OrderDTO orderDTO1 = orderService.paid(orderDTO);
         Assert.assertEquals(orderDTO,orderDTO1);
+    }
+
+    @Test
+    public  void  findAll() throws  Exception{
+        PageRequest pageRequest = PageRequest.of(0,2);
+        Page<OrderDTO> orderDTOPage = orderService.findList(pageRequest);
+        log.info("find all list resonse={}", JsonUtil.toJson(orderDTOPage));
+        //Assert.assertNotNull(orderDTOPage);
+        Assert.assertTrue("查询订单列表",orderDTOPage.getTotalElements() >0);
+
     }
 }
