@@ -6,6 +6,7 @@ package cn.test.demo.controller;
  * @desc:  卖家端订单管理
  */
 
+import cn.test.demo.ViewObject.ResoultObject;
 import cn.test.demo.dto.OrderDTO;
 import cn.test.demo.enums.ResoultEnum;
 import cn.test.demo.exception.SellException;
@@ -79,4 +80,21 @@ public class SellerOrderController {
 
     }
 
+    // 订单详情
+    @GetMapping("/detail")
+    public ModelAndView detail(@RequestParam("orderId") String orderId,
+                                          Map<String,Object> map){
+        OrderDTO orderDTO = new OrderDTO();
+        try{
+            orderDTO = orderService.findOne(orderId);
+        }catch (SellException e){
+            log.error(" 【卖家端查询订单详情】 发生异常{}",e);
+            map.put("msg",e.getMessage());
+            map.put("url","/sell/seller/order/list");
+            return  new ModelAndView("common/error",map);
+        }
+        map.put("orderDTO",orderDTO);
+        return  new ModelAndView("order/detail",map);
+
+    }
 }
