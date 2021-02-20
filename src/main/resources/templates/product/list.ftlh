@@ -47,6 +47,7 @@
                                 <#else>
                                     <a href="/sell/seller/product/on_sale?productId=${productInfo.productId}">上架</a>
                                 </#if>
+
                             </td>
                         </tr>
                         </#list>

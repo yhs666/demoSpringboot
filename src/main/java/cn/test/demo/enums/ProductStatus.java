@@ -8,7 +8,7 @@ import lombok.Getter;
 
 // 商品状态
 @Getter
-public enum  ProductStatus {
+public enum  ProductStatus implements  CodeEnum {
     Up(0,"在架"),
     DOWN(1,"下架")
     ;

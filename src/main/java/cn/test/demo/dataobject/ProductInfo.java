@@ -6,12 +6,17 @@ package cn.test.demo.dataobject;
  * @desc:
  */
 
+import cn.test.demo.enums.OrderStatusEnum;
+import cn.test.demo.enums.ProductStatus;
+import cn.test.demo.utils.EnumUtil;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.math.BigDecimal;
+import java.util.Date;
 
 @Data
 @Entity
@@ -37,5 +42,14 @@ public class ProductInfo {
 
     // 商品类目编号
     private  Integer categoryType;
+
+
+    private Date createTime;
+    private  Date updateTime;
+
+    @JsonIgnore
+    public ProductStatus getProductStatusEnum(){
+        return EnumUtil.getBycode(productStatus,ProductStatus.class);
+    }
 
 }
