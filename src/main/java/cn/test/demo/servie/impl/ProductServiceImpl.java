@@ -101,7 +101,7 @@ public class ProductServiceImpl implements ProductService {
         if (productInfo.getProductStatusEnum() == ProductStatus.DOWN){
             throw  new SellException(ResoultEnum.PRODUCT_STATUS_ERROR);
         }
-        productInfo.setProductStatus(ProductStatus.Up.getCode());
+        productInfo.setProductStatus(ProductStatus.DOWN.getCode());
         return repository.save(productInfo);
     }
 }
