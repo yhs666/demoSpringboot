@@ -27,4 +27,8 @@ public interface ProductService {
 
     //减 库存
     void  descreaseStock(List<CartDTO> cartDTOSList);
+    //上架
+    ProductInfo onSale(String productId);
+    //下架
+    ProductInfo offSale(String productId);
 }
