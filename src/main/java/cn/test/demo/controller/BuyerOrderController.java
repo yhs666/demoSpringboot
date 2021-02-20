@@ -86,6 +86,7 @@ public class BuyerOrderController {
     @GetMapping("/detail")
     public  ResoultObject<OrderDTO> detail(@RequestParam("openid") String openid,
                                            @RequestParam("orderId") String orderId){
+
         OrderDTO orderDTO = buyerService.findOrderOne(openid,orderId);
 
         return  ResoultVOUtil.success(orderDTO);
