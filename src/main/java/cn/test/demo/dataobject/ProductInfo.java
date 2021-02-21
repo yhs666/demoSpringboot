@@ -12,8 +12,13 @@ import cn.test.demo.utils.EnumUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.Id;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -21,6 +26,7 @@ import java.util.Date;
 @Data
 @Entity
 @DynamicUpdate
+@EntityListeners(AuditingEntityListener.class)
 public class ProductInfo {
     @Id
     private  String productId;
@@ -38,13 +44,16 @@ public class ProductInfo {
     private  String productIcon;
 
     // 0 正常 1 下架
-    private  Integer productStatus;
+    private  Integer productStatus = ProductStatus.Up.getCode();
 
     // 商品类目编号
     private  Integer categoryType;
 
-
+    // 创建时间
+    @CreatedDate
     private Date createTime;
+    // 创建时间
+    @LastModifiedDate
     private  Date updateTime;
 
     @JsonIgnore

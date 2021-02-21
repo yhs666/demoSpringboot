@@ -13,6 +13,7 @@ import cn.test.demo.exception.SellException;
 import cn.test.demo.from.ProductFrom;
 import cn.test.demo.servie.CategoryService;
 import cn.test.demo.servie.ProductService;
+import cn.test.demo.utils.KeyUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -121,10 +122,14 @@ public class SellerProductController {
             return  new ModelAndView("common/error",map);
         }
 
-
-
+        ProductInfo productInfo = new ProductInfo();
         try{
-            ProductInfo productInfo = productService.findOne(from.getProductId());
+            if(StringUtils.hasLength(from.getProductId())){
+                productInfo = productService.findOne(from.getProductId());
+            }else {
+                from.setProductId(KeyUtil.genUniqueKey());
+            }
+
             BeanUtils.copyProperties(from,productInfo);
             productService.save(productInfo);
         }catch (SellException e){
