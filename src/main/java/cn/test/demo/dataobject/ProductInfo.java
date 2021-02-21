@@ -52,7 +52,7 @@ public class ProductInfo {
     // 创建时间
     @CreatedDate
     private Date createTime;
-    // 创建时间
+    // change 时间
     @LastModifiedDate
     private  Date updateTime;
 
