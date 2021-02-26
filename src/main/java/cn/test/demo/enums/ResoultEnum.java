@@ -25,6 +25,7 @@ public enum ResoultEnum {
     ORDER_FINISH_SUCCESS(23,"订单完成成功"),
     PRODUCT_STATUS_ERROR(24,"商品状态不正确"),
     LOGIN_ERROR(25,"登录信息不正确"),
+    LOGOUT_SUCCESS(26,"登出成功"),
     ;
     private  Integer code;
     private  String  message;

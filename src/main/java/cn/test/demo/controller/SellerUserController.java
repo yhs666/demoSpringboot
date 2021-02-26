@@ -22,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 import java.util.UUID;
@@ -62,5 +63,27 @@ public class SellerUserController{
         //
 
         return  new ModelAndView("redirect:" + projectUrlConfig.getSell() + "/sell/seller/order/list");
+    }
+
+    @GetMapping("/logout")
+    public ModelAndView logout(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            Map<String,Object> map
+    ){
+        // 1  通过cookies 获取 token
+        Cookie cookie =  CookieUtil.get(request, CookieConstant.TOKEN);
+        if(cookie !=null){
+            // 2 清除 redis 中的token
+            redisTemplate.opsForValue().getOperations().delete(String.format(RedisConstant.TOKEN_PREFIX,cookie.getValue()));
+            log.info(cookie.getValue());
+        }
+
+        // 3 设置token to cookies
+        CookieUtil.set(response, CookieConstant.TOKEN, null,0);
+        //
+        map.put("msg",ResoultEnum.LOGOUT_SUCCESS.getMessage());
+        map.put("url","/sell/seller/order/list");
+        return  new ModelAndView("common/success",map);
     }
 }
